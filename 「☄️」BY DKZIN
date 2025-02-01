@@ -1,0 +1,136 @@
+local TweenService = game:GetService("TweenService")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+-- Lista de usuários permitidos (Whitelist)
+local whitelist = { "Elite_deus", "Japalindo_26", "Ramonlk45" }
+
+-- Criar a GUI da tela de carregamento
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Parent = game.CoreGui
+
+-- Configuração da Frame de Carregamento
+local LoadingFrame = Instance.new("Frame")
+LoadingFrame.Size = UDim2.new(0.4, 0, 0.2, 0)
+LoadingFrame.Position = UDim2.new(0.3, 0, 0.4, 0)
+LoadingFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+LoadingFrame.BorderSizePixel = 0
+LoadingFrame.BackgroundTransparency = 1 -- Começa invisível para fade-in
+LoadingFrame.Parent = ScreenGui
+
+-- Configuração do Texto de Carregamento
+local LoadingText = Instance.new("TextLabel")
+LoadingText.Size = UDim2.new(1, 0, 0.3, 0)
+LoadingText.Position = UDim2.new(0, 0, 0.1, 0)
+LoadingText.Text = "🇪🇬 Carregando Script..."
+LoadingText.Font = Enum.Font.SourceSansBold
+LoadingText.TextSize = 24
+LoadingText.TextColor3 = Color3.fromRGB(255, 255, 255)
+LoadingText.BackgroundTransparency = 1 -- Invisível para fade-in
+LoadingText.Parent = LoadingFrame
+
+-- Configuração da Barra de Progresso
+local ProgressBar = Instance.new("Frame")
+ProgressBar.Size = UDim2.new(0.8, 0, 0.15, 0)
+ProgressBar.Position = UDim2.new(0.1, 0, 0.7, 0)
+ProgressBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+ProgressBar.BorderSizePixel = 0
+ProgressBar.BackgroundTransparency = 1 -- Invisível para fade-in
+ProgressBar.Parent = LoadingFrame
+
+-- Preenchimento da Barra de Progresso
+local ProgressFill = Instance.new("Frame")
+ProgressFill.Size = UDim2.new(0, 0, 1, 0)
+ProgressFill.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+ProgressFill.BorderSizePixel = 0
+ProgressFill.Parent = ProgressBar
+
+-- Configuração da borda arredondada
+local UICornerLoadingFrame = Instance.new("UICorner")
+UICornerLoadingFrame.CornerRadius = UDim.new(0.1, 0)
+UICornerLoadingFrame.Parent = LoadingFrame
+
+local UICornerProgressBar = Instance.new("UICorner")
+UICornerProgressBar.CornerRadius = UDim.new(0.2, 0)
+UICornerProgressBar.Parent = ProgressBar
+
+-- Ícone de Carregamento
+local LoadingIcon = Instance.new("ImageLabel")
+LoadingIcon.Size = UDim2.new(0.15, 0, 0.3, 0)
+LoadingIcon.Position = UDim2.new(0.425, 0, 0.3, 0)
+LoadingIcon.BackgroundTransparency = 1
+LoadingIcon.Image = "rbxassetid://14417743191" -- Ícone de carregamento
+LoadingIcon.Parent = LoadingFrame
+
+-- Função para animação suave de fade-in com Tweening
+local function fadeIn(element)
+    local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quint, Enum.EasingDirection.Out)
+    local goal = { BackgroundTransparency = 0 }
+    local tween = TweenService:Create(element, tweenInfo, goal)
+    tween:Play()
+end
+
+-- Função para animação suave de fade-out com Tweening
+local function fadeOut(element)
+    local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quint, Enum.EasingDirection.In)
+    local goal = { BackgroundTransparency = 1 }
+    local tween = TweenService:Create(element, tweenInfo, goal)
+    tween:Play()
+end
+
+-- Animação de progresso com Tweening
+local function animateProgress()
+    local tweenInfo = TweenInfo.new(5, Enum.EasingStyle.Linear, Enum.EasingDirection.Out, -1, true)
+    local goal = { Size = UDim2.new(1, 0, 1, 0) }
+    local tween = TweenService:Create(ProgressFill, tweenInfo, goal)
+    tween:Play()
+end
+
+-- Função para substituir strings no conteúdo do script
+local function substituteStrings(content)
+    content = content:gsub("what is better than this?", "SCRIPT VIP TCC 🇪🇬☄️")
+    content = content:gsub("Product", "PRODUTOS 🇪🇬")
+    content = content:gsub("Gamepass", "LIBERAR PASSES 🇪🇬")
+    content = content:gsub("Cracked: BaconBoossScript", "BY; MENOR DK 🇪🇬")
+    return content
+end
+
+-- Função principal para verificar a lista branca
+local function checkPlayer()
+    if table.find(whitelist, LocalPlayer.Name) then
+        -- Animações de carregamento
+        fadeIn(LoadingFrame)
+        fadeIn(LoadingText)
+        fadeIn(ProgressBar)
+        fadeIn(ProgressFill)
+        fadeIn(LoadingIcon)
+
+        -- Animação de progresso
+        animateProgress()
+
+        -- Atualização do texto de carregamento
+        LoadingText.Text = "✅ Carregamento Concluído!"
+        wait(2)
+
+        fadeOut(LoadingFrame)
+        fadeOut(LoadingText)
+        fadeOut(ProgressBar)
+        fadeOut(ProgressFill)
+        fadeOut(LoadingIcon)
+        wait(1)
+        
+        -- Carregar e modificar o script
+        local scriptContent = game:HttpGet("https://raw.githubusercontent.com/BaconBossScript/Crazy/main/Crazy")
+        local modifiedScript = substituteStrings(scriptContent)
+
+        -- Executar o script modificado
+        loadstring(modifiedScript)()
+    else
+        LocalPlayer:Kick("🚫 (SCRIPT VIP 🇪🇬) Esse script é liberado apenas para certas pessoas do TCC ☄️")
+    end
+end
+
+-- Espera o jogador carregar completamente antes de rodar o script
+repeat wait() until LocalPlayer
+wait(2)
+checkPlayer()
