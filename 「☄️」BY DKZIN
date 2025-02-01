@@ -1,4 +1,3 @@
-local TweenService = game:GetService("TweenService")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
@@ -45,14 +44,9 @@ ProgressFill.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
 ProgressFill.BorderSizePixel = 0
 ProgressFill.Parent = ProgressBar
 
--- Configuração da borda arredondada
-local UICornerLoadingFrame = Instance.new("UICorner")
-UICornerLoadingFrame.CornerRadius = UDim.new(0.1, 0)
-UICornerLoadingFrame.Parent = LoadingFrame
-
-local UICornerProgressBar = Instance.new("UICorner")
-UICornerProgressBar.CornerRadius = UDim.new(0.2, 0)
-UICornerProgressBar.Parent = ProgressBar
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0.2, 0)
+UICorner.Parent = ProgressBar
 
 -- Ícone de Carregamento
 local LoadingIcon = Instance.new("ImageLabel")
@@ -62,28 +56,36 @@ LoadingIcon.BackgroundTransparency = 1
 LoadingIcon.Image = "rbxassetid://14417743191" -- Ícone de carregamento
 LoadingIcon.Parent = LoadingFrame
 
--- Função para animação suave de fade-in com Tweening
-local function fadeIn(element)
-    local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quint, Enum.EasingDirection.Out)
-    local goal = { BackgroundTransparency = 0 }
-    local tween = TweenService:Create(element, tweenInfo, goal)
-    tween:Play()
+-- Função para animação suave de fade-in
+local function fadeIn()
+    for i = 0, 1, 0.05 do
+        LoadingFrame.BackgroundTransparency = 1 - i
+        LoadingText.TextTransparency = 1 - i
+        ProgressBar.BackgroundTransparency = 1 - i
+        LoadingIcon.ImageTransparency = 1 - i
+        wait(0.05)
+    end
 end
 
--- Função para animação suave de fade-out com Tweening
-local function fadeOut(element)
-    local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quint, Enum.EasingDirection.In)
-    local goal = { BackgroundTransparency = 1 }
-    local tween = TweenService:Create(element, tweenInfo, goal)
-    tween:Play()
+-- Função para animação suave de fade-out
+local function fadeOut()
+    for i = 0, 1, 0.1 do
+        LoadingFrame.BackgroundTransparency = i
+        LoadingText.TextTransparency = i
+        ProgressBar.BackgroundTransparency = i
+        ProgressFill.BackgroundTransparency = i
+        LoadingIcon.ImageTransparency = i
+        wait(0.05)
+    end
 end
 
--- Animação de progresso com Tweening
+-- Animação de progresso + rotação do ícone
 local function animateProgress()
-    local tweenInfo = TweenInfo.new(5, Enum.EasingStyle.Linear, Enum.EasingDirection.Out, -1, true)
-    local goal = { Size = UDim2.new(1, 0, 1, 0) }
-    local tween = TweenService:Create(ProgressFill, tweenInfo, goal)
-    tween:Play()
+    for i = 1, 100, 2 do
+        ProgressFill.Size = UDim2.new(i / 100, 0, 1, 0)
+        LoadingIcon.Rotation = LoadingIcon.Rotation + 15
+        wait(0.1)
+    end
 end
 
 -- Função para substituir strings no conteúdo do script
@@ -99,26 +101,16 @@ end
 local function checkPlayer()
     if table.find(whitelist, LocalPlayer.Name) then
         -- Animações de carregamento
-        fadeIn(LoadingFrame)
-        fadeIn(LoadingText)
-        fadeIn(ProgressBar)
-        fadeIn(ProgressFill)
-        fadeIn(LoadingIcon)
-
-        -- Animação de progresso
+        fadeIn()
         animateProgress()
 
         -- Atualização do texto de carregamento
         LoadingText.Text = "✅ Carregamento Concluído!"
         wait(2)
 
-        fadeOut(LoadingFrame)
-        fadeOut(LoadingText)
-        fadeOut(ProgressBar)
-        fadeOut(ProgressFill)
-        fadeOut(LoadingIcon)
-        wait(1)
-        
+        fadeOut()
+        ScreenGui:Destroy()
+
         -- Carregar e modificar o script
         local scriptContent = game:HttpGet("https://raw.githubusercontent.com/BaconBossScript/Crazy/main/Crazy")
         local modifiedScript = substituteStrings(scriptContent)
