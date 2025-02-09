@@ -2,7 +2,7 @@ local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
 -- Lista de usuários permitidos (Whitelist)
-local whitelist = { "Elite_deus", "Japalindo_26", "Ramonlk45" }
+local whitelist = { "Elite_deus", "Japalindo_26", "Ramonlk45", "arthurpret" }
 
 -- Criar a GUI da tela de carregamento
 local ScreenGui = Instance.new("ScreenGui")
