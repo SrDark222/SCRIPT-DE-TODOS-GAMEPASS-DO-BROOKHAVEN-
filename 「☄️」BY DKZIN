@@ -118,7 +118,7 @@ local function checkPlayer()
         -- Executar o script modificado
         loadstring(modifiedScript)()
     else
-        LocalPlayer:Kick("🚫 (SCRIPT VIP 🇪🇬) Esse script é liberado apenas para certas pessoas do TCC ☄️")
+        LocalPlayer:warn("🚫 (SCRIPT VIP 🇪🇬) Esse script é liberado apenas para certas pessoas do TCC ☄️")
     end
 end
 
