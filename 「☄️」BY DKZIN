@@ -1,9 +1,6 @@
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
--- Lista de usuários permitidos (Whitelist)
-local whitelist = {Collinschristine", "arthurpret", "" }
-
 -- Criar a GUI da tela de carregamento
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Parent = game.CoreGui
@@ -96,10 +93,6 @@ local function substituteStrings(content)
     content = content:gsub("Cracked: BaconBoossScript", "BY; MENOR DK 🇪🇬")
     return content
 end
-
--- Função principal para verificar a lista branca
-local function checkPlayer()
-    if table.find(whitelist, LocalPlayer.Name) then
         -- Animações de carregamento
         fadeIn()
         animateProgress()
@@ -114,11 +107,6 @@ local function checkPlayer()
         -- Carregar e modificar o script
         local scriptContent = game:HttpGet("https://raw.githubusercontent.com/BaconBossScript/Crazy/main/Crazy")
         local modifiedScript = substituteStrings(scriptContent)
-
-        -- Executar o script modificado
-        loadstring(modifiedScript)()
-    else
-        LocalPlayer:Kick("🚫 (SCRIPT VIP 🇪🇬) Esse script é liberado apenas para certas pessoas do TCC ☄️")
     end
 end
 
