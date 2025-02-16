@@ -1,116 +1,42 @@
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
+local Players = game:GetService("Players") local LocalPlayer = Players.LocalPlayer
 
--- Criar a GUI da tela de carregamento
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Parent = game.CoreGui
+-- Criar a GUI da tela de carregamento local ScreenGui = Instance.new("ScreenGui") ScreenGui.Parent = game.CoreGui
 
--- Configuração da Frame de Carregamento
-local LoadingFrame = Instance.new("Frame")
-LoadingFrame.Size = UDim2.new(0.4, 0, 0.2, 0)
-LoadingFrame.Position = UDim2.new(0.3, 0, 0.4, 0)
-LoadingFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-LoadingFrame.BorderSizePixel = 0
-LoadingFrame.BackgroundTransparency = 1 -- Começa invisível para fade-in
-LoadingFrame.Parent = ScreenGui
+-- Configuração da Frame de Carregamento local LoadingFrame = Instance.new("Frame") LoadingFrame.Size = UDim2.new(0.4, 0, 0.2, 0) LoadingFrame.Position = UDim2.new(0.3, 0, 0.4, 0) LoadingFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0) LoadingFrame.BorderSizePixel = 0 LoadingFrame.BackgroundTransparency = 1 -- Começa invisível para fade-in LoadingFrame.Parent = ScreenGui
 
--- Configuração do Texto de Carregamento
-local LoadingText = Instance.new("TextLabel")
-LoadingText.Size = UDim2.new(1, 0, 0.3, 0)
-LoadingText.Position = UDim2.new(0, 0, 0.1, 0)
-LoadingText.Text = "🇪🇬 Carregando Script..."
-LoadingText.Font = Enum.Font.SourceSansBold
-LoadingText.TextSize = 24
-LoadingText.TextColor3 = Color3.fromRGB(255, 255, 255)
-LoadingText.BackgroundTransparency = 1 -- Invisível para fade-in
-LoadingText.Parent = LoadingFrame
+-- Configuração do Texto de Carregamento local LoadingText = Instance.new("TextLabel") LoadingText.Size = UDim2.new(1, 0, 0.3, 0) LoadingText.Position = UDim2.new(0, 0, 0.1, 0) LoadingText.Text = "🇪🇬 Carregando Script..." LoadingText.Font = Enum.Font.SourceSansBold LoadingText.TextSize = 24 LoadingText.TextColor3 = Color3.fromRGB(255, 255, 255) LoadingText.BackgroundTransparency = 1 -- Invisível para fade-in LoadingText.Parent = LoadingFrame
 
--- Configuração da Barra de Progresso
-local ProgressBar = Instance.new("Frame")
-ProgressBar.Size = UDim2.new(0.8, 0, 0.15, 0)
-ProgressBar.Position = UDim2.new(0.1, 0, 0.7, 0)
-ProgressBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-ProgressBar.BorderSizePixel = 0
-ProgressBar.BackgroundTransparency = 1 -- Invisível para fade-in
-ProgressBar.Parent = LoadingFrame
+-- Configuração da Barra de Progresso local ProgressBar = Instance.new("Frame") ProgressBar.Size = UDim2.new(0.8, 0, 0.15, 0) ProgressBar.Position = UDim2.new(0.1, 0, 0.7, 0) ProgressBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30) ProgressBar.BorderSizePixel = 0 ProgressBar.BackgroundTransparency = 1 -- Invisível para fade-in ProgressBar.Parent = LoadingFrame
 
--- Preenchimento da Barra de Progresso
-local ProgressFill = Instance.new("Frame")
-ProgressFill.Size = UDim2.new(0, 0, 1, 0)
-ProgressFill.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-ProgressFill.BorderSizePixel = 0
-ProgressFill.Parent = ProgressBar
+-- Preenchimento da Barra de Progresso local ProgressFill = Instance.new("Frame") ProgressFill.Size = UDim2.new(0, 0, 1, 0) ProgressFill.BackgroundColor3 = Color3.fromRGB(255, 0, 0) ProgressFill.BorderSizePixel = 0 ProgressFill.Parent = ProgressBar
 
-local UICorner = Instance.new("UICorner")
-UICorner.CornerRadius = UDim.new(0.2, 0)
-UICorner.Parent = ProgressBar
+local UICorner = Instance.new("UICorner") UICorner.CornerRadius = UDim.new(0.2, 0) UICorner.Parent = ProgressBar
 
--- Ícone de Carregamento
-local LoadingIcon = Instance.new("ImageLabel")
-LoadingIcon.Size = UDim2.new(0.15, 0, 0.3, 0)
-LoadingIcon.Position = UDim2.new(0.425, 0, 0.3, 0)
-LoadingIcon.BackgroundTransparency = 1
-LoadingIcon.Image = "rbxassetid://14417743191" -- Ícone de carregamento
-LoadingIcon.Parent = LoadingFrame
+-- Ícone de Carregamento local LoadingIcon = Instance.new("ImageLabel") LoadingIcon.Size = UDim2.new(0.15, 0, 0.3, 0) LoadingIcon.Position = UDim2.new(0.425, 0, 0.3, 0) LoadingIcon.BackgroundTransparency = 1 LoadingIcon.Image = "rbxassetid://14417743191" -- Ícone de carregamento LoadingIcon.Parent = LoadingFrame
 
--- Função para animação suave de fade-in
-local function fadeIn()
-    for i = 0, 1, 0.05 do
-        LoadingFrame.BackgroundTransparency = 1 - i
-        LoadingText.TextTransparency = 1 - i
-        ProgressBar.BackgroundTransparency = 1 - i
-        LoadingIcon.ImageTransparency = 1 - i
-        wait(0.05)
-    end
-end
+-- Função para animação suave de fade-in local function fadeIn() for i = 0, 1, 0.05 do LoadingFrame.BackgroundTransparency = 1 - i LoadingText.TextTransparency = 1 - i ProgressBar.BackgroundTransparency = 1 - i LoadingIcon.ImageTransparency = 1 - i wait(0.05) end end
 
--- Função para animação suave de fade-out
-local function fadeOut()
-    for i = 0, 1, 0.1 do
-        LoadingFrame.BackgroundTransparency = i
-        LoadingText.TextTransparency = i
-        ProgressBar.BackgroundTransparency = i
-        ProgressFill.BackgroundTransparency = i
-        LoadingIcon.ImageTransparency = i
-        wait(0.05)
-    end
-end
+-- Função para animação suave de fade-out local function fadeOut() for i = 0, 1, 0.1 do LoadingFrame.BackgroundTransparency = i LoadingText.TextTransparency = i ProgressBar.BackgroundTransparency = i ProgressFill.BackgroundTransparency = i LoadingIcon.ImageTransparency = i wait(0.05) end end
 
--- Animação de progresso + rotação do ícone
-local function animateProgress()
-    for i = 1, 100, 2 do
-        ProgressFill.Size = UDim2.new(i / 100, 0, 1, 0)
-        LoadingIcon.Rotation = LoadingIcon.Rotation + 15
-        wait(0.1)
-    end
-end
+-- Animação de progresso + rotação do ícone local function animateProgress() for i = 1, 100, 2 do ProgressFill.Size = UDim2.new(i / 100, 0, 1, 0) LoadingIcon.Rotation = LoadingIcon.Rotation + 15 wait(0.1) end end
 
--- Função para substituir strings no conteúdo do script
-local function substituteStrings(content)
-    content = content:gsub("what is better than this?", "SCRIPT VIP TCC 🇪🇬☄️")
-    content = content:gsub("Product", "PRODUTOS 🇪🇬")
-    content = content:gsub("Gamepass", "LIBERAR PASSES 🇪🇬")
-    content = content:gsub("Cracked: BaconBoossScript", "BY; MENOR DK 🇪🇬")
-    return content
-end
-        -- Animações de carregamento
-        fadeIn()
-        animateProgress()
+-- Função para substituir strings no conteúdo do script local function substituteStrings(content) content = content:gsub("what is better than this?", "SCRIPT VIP TCC 🇪🇬☄️") content = content:gsub("Product", "PRODUTOS 🇪🇬") content = content:gsub("Gamepass", "LIBERAR PASSES 🇪🇬") content = content:gsub("Cracked: BaconBoossScript", "BY; MENOR DK 🇪🇬") return content end
 
-        -- Atualização do texto de carregamento
-        LoadingText.Text = "✅ Carregamento Concluído!"
-        wait(2)
+local function loadScript() fadeIn() animateProgress()
 
-        fadeOut()
-        ScreenGui:Destroy()
-
-        -- Carregar e modificar o script
-        local scriptContent = game:HttpGet("https://raw.githubusercontent.com/BaconBossScript/Crazy/main/Crazy")
-        local modifiedScript = substituteStrings(scriptContent)
-    end
-end
-
--- Espera o jogador carregar completamente antes de rodar o script
-repeat wait() until LocalPlayer
+-- Atualização do texto de carregamento
+LoadingText.Text = "✅ Carregamento Concluído!"
 wait(2)
-checkPlayer()
+
+fadeOut()
+ScreenGui:Destroy()
+
+-- Carregar e modificar o script
+local scriptContent = game:HttpGet("https://raw.githubusercontent.com/BaconBossScript/Crazy/main/Crazy")
+local modifiedScript = substituteStrings(scriptContent)
+loadstring(modifiedScript)()
+
+end
+
+-- Espera o jogador carregar completamente antes de rodar o script repeat wait() until LocalPlayer wait(2) loadScript()
+
